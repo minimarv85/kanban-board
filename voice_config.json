@@ -1,0 +1,13 @@
+{
+  "voice": {
+    "enabled": true,
+    "provider": "whisper-local",
+    "whisper": {
+      "envPath": "/home/skillman85/.openclaw/voice-env/bin/python",
+      "scriptPath": "/home/skillman85/.openclaw/workspace/transcribe.py",
+      "model": "tiny"
+    },
+    "autoProcess": true,
+    "channels": ["telegram"]
+  }
+}
