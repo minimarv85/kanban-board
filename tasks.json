@@ -66,5 +66,14 @@
     "priority": "low",
     "dueDate": "",
     "status": "doing"
+  },
+  {
+    "id": "1770413669",
+    "title": "AI Research Post",
+    "description": "Research AI trends & post to X at 9am, 1pm, 7pm daily. Tries X first, Telegram fallback.",
+    "assignee": "marv",
+    "priority": "medium",
+    "dueDate": "",
+    "status": "doing"
   }
 ]
