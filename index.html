@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>James & Marv - Kanban Board</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: #667eea;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .add-task-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .add-task-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: flex;
+            gap: 20px;
+            padding: 20px 30px;
+            background: rgba(255,255,255,0.03);
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .stat-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .stat-info h3 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .stat-info p {
+            font-size: 12px;
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* Board */
+        .board {
+            display: flex;
+            gap: 24px;
+            padding: 24px 30px;
+            overflow-x: auto;
+            min-height: calc(100vh - 200px);
+        }
+
+        .column {
+            min-width: 320px;
+            max-width: 320px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .column-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .column-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .column-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .column h2 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .column-count {
+            background: rgba(255,255,255,0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .task-list {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .task-card {
+            background: rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 16px;
+            cursor: grab;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .task-card:hover {
+            background: rgba(255,255,255,0.12);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .task-card.dragging {
+            opacity: 0.5;
+            transform: rotate(3deg);
+        }
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .task-title {
+            font-weight: 600;
+            font-size: 15px;
+            flex: 1;
+        }
+
+        .task-priority {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .priority-high {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .priority-medium {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+
+        .priority-low {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .task-description {
+            font-size: 13px;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .task-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .task-assignee {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .assignee-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .assignee-james {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        }
+
+        .assignee-marv {
+            background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+        }
+
+        .assignee-name {
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .task-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .task-due {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .task-due.overdue {
+            color: #ef4444;
+        }
+
+        .task-due.today {
+            color: #f59e0b;
+        }
+
+        .task-comments {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: #1a1a2e;
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transform: translateY(-20px);
+            transition: all 0.3s;
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+
+        .modal h2 {
+            margin-bottom: 24px;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 16px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        /* Column Colors */
+        .col-backlog .column-icon { background: rgba(156, 163, 175, 0.2); }
+        .col-today .column-icon { background: rgba(59, 130, 246, 0.2); }
+        .col-doing .column-icon { background: rgba(245, 158, 11, 0.2); }
+        .col-review .column-icon { background: rgba(139, 92, 246, 0.2); }
+        .col-done .column-icon { background: rgba(16, 185, 129, 0.2); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .board {
+                padding: 16px;
+            }
+
+            .column {
+                min-width: 280px;
+                max-width: 280px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .stats-bar {
+                flex-wrap: wrap;
+            }
+        }
+
+        /* Drag and Drop */
+        .task-card.drag-over {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        /* Empty state */
+        .empty-column {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .empty-column p {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <div class="logo-icon">📋</div>
+            <h1>James & <span>Marv</span></h1>
+        </div>
+        <div class="header-actions">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="james">James</button>
+                <button class="filter-btn" data-filter="marv">Marv</button>
+            </div>
+            <button class="add-task-btn" onclick="openModal()">
+                <span>➕</span> Add Task
+            </button>
+        </div>
+    </header>
+
+    <div class="stats-bar">
+        <div class="stat">
+            <div class="stat-icon" style="background: rgba(156, 163, 175, 0.2);">📋</div>
+            <div class="stat-info">
+                <h3 id="totalTasks">0</h3>
+                <p>Total Tasks</p>
+            </div>
+        </div>
+        <div class="stat">
+            <div class="stat-icon" style="background: rgba(59, 130, 246, 0.2);">🎯</div>
+            <div class="stat-info">
+                <h3 id="jamesTasks">0</h3>
+                <p>James's Tasks</p>
+            </div>
+        </div>
+        <div class="stat">
+            <div class="stat-icon" style="background: rgba(139, 92, 246, 0.2);">🤖</div>
+            <div class="stat-info">
+                <h3 id="marvTasks">0</h3>
+                <p>Marv's Tasks</p>
+            </div>
+        </div>
+        <div class="stat">
+            <div class="stat-icon" style="background: rgba(16, 185, 129, 0.2);">✅</div>
+            <div class="stat-info">
+                <h3 id="completedTasks">0</h3>
+                <p>Completed</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="board">
+        <div class="column col-backlog" data-status="backlog">
+            <div class="column-header">
+                <div class="column-title">
+                    <div class="column-icon">📋</div>
+                    <h2>Backlog</h2>
+                </div>
+                <span class="column-count">0</span>
+            </div>
+            <div class="task-list" data-status="backlog"></div>
+        </div>
+
+        <div class="column col-today" data-status="today">
+            <div class="column-header">
+                <div class="column-title">
+                    <div class="column-icon">🎯</div>
+                    <h2>Today</h2>
+                </div>
+                <span class="column-count">0</span>
+            </div>
+            <div class="task-list" data-status="today"></div>
+        </div>
+
+        <div class="column col-doing" data-status="doing">
+            <div class="column-header">
+                <div class="column-title">
+                    <div class="column-icon">🔥</div>
+                    <h2>Doing</h2>
+                </div>
+                <span class="column-count">0</span>
+            </div>
+            <div class="task-list" data-status="doing"></div>
+        </div>
+
+        <div class="column col-review" data-status="review">
+            <div class="column-header">
+                <div class="column-title">
+                    <div class="column-icon">👀</div>
+                    <h2>Review</h2>
+                </div>
+                <span class="column-count">0</span>
+            </div>
+            <div class="task-list" data-status="review"></div>
+        </div>
+
+        <div class="column col-done" data-status="done">
+            <div class="column-header">
+                <div class="column-title">
+                    <div class="column-icon">✅</div>
+                    <h2>Done</h2>
+                </div>
+                <span class="column-count">0</span>
+            </div>
+            <div class="task-list" data-status="done"></div>
+        </div>
+    </div>
+
+    <!-- Add Task Modal -->
+    <div class="modal-overlay" id="taskModal">
+        <div class="modal">
+            <h2>Add New Task</h2>
+            <form id="taskForm">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="taskTitle" placeholder="What needs to be done?" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="taskDescription" placeholder="Add more details..."></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Assignee</label>
+                        <select id="taskAssignee">
+                            <option value="james">James</option>
+                            <option value="marv">Marv</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Priority</label>
+                        <select id="taskPriority">
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Due Date</label>
+                    <input type="date" id="taskDue">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Data
+        let tasks = JSON.parse(localStorage.getItem('kanbanTasks')) || [];
+        let currentFilter = 'all';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTasks();
+            setupDragAndDrop();
+            setupFilterButtons();
+            setupForm();
+        });
+
+        // Render tasks
+        function renderTasks() {
+            const columns = document.querySelectorAll('.task-list');
+            columns.forEach(col => {
+                const status = col.dataset.status;
+                const filteredTasks = tasks.filter(task => {
+                    if (task.status !== status) return false;
+                    if (currentFilter === 'all') return true;
+                    return task.assignee === currentFilter;
+                });
+
+                col.innerHTML = filteredTasks.length ? '' : `
+                    <div class="empty-column">
+                        <p>No tasks yet</p>
+                    </div>
+                `;
+
+                filteredTasks.forEach(task => {
+                    const card = createTaskCard(task);
+                    col.appendChild(card);
+                });
+
+                // Update column count
+                const count = filteredTasks.length;
+                col.parentElement.querySelector('.column-count').textContent = count;
+            });
+
+            updateStats();
+        }
+
+        // Create task card
+        function createTaskCard(task) {
+            const card = document.createElement('div');
+            card.className = 'task-card';
+            card.draggable = true;
+            card.dataset.id = task.id;
+
+            const dueClass = getDueClass(task.dueDate);
+            const assigneeClass = task.assignee === 'james' ? 'assignee-james' : 'assignee-marv';
+            const assigneeInitial = task.assignee === 'james' ? 'J' : 'M';
+            const assigneeName = task.assignee === 'james' ? 'James' : 'Marv';
+
+            card.innerHTML = `
+                <div class="task-header">
+                    <span class="task-title">${escapeHtml(task.title)}</span>
+                    <span class="task-priority priority-${task.priority}">${task.priority}</span>
+                </div>
+                ${task.description ? `<p class="task-description">${escapeHtml(task.description)}</p>` : ''}
+                <div class="task-footer">
+                    <div class="task-assignee">
+                        <div class="assignee-avatar ${assigneeClass}">${assigneeInitial}</div>
+                        <span class="assignee-name">${assigneeName}</span>
+                    </div>
+                    <div class="task-meta">
+                        ${task.dueDate ? `
+                            <span class="task-due ${dueClass}">
+                                📅 ${formatDate(task.dueDate)}
+                            </span>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+
+            card.addEventListener('dragstart', handleDragStart);
+            card.addEventListener('dragend', handleDragEnd);
+            card.addEventListener('dragover', handleDragOver);
+            card.addEventListener('drop', handleDrop);
+            card.addEventListener('dragleave', handleDragLeave);
+
+            return card;
+        }
+
+        // Drag and Drop
+        let draggedTask = null;
+
+        function setupDragAndDrop() {
+            const lists = document.querySelectorAll('.task-list');
+            lists.forEach(list => {
+                list.addEventListener('dragover', e => {
+                    e.preventDefault();
+                    list.classList.add('drag-over');
+                });
+
+                list.addEventListener('dragleave', () => {
+                    list.classList.remove('drag-over');
+                });
+
+                list.addEventListener('drop', e => {
+                    e.preventDefault();
+                    list.classList.remove('drag-over');
+                    if (draggedTask) {
+                        const newStatus = list.dataset.status;
+                        const task = tasks.find(t => t.id === draggedTask);
+                        if (task && task.status !== newStatus) {
+                            task.status = newStatus;
+                            saveTasks();
+                            renderTasks();
+                        }
+                    }
+                });
+            });
+        }
+
+        function handleDragStart(e) {
+            draggedTask = e.target.dataset.id;
+            e.target.classList.add('dragging');
+        }
+
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+            draggedTask = null;
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+        }
+
+        // Filter buttons
+        function setupFilterButtons() {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = btn.dataset.filter;
+                    renderTasks();
+                });
+            });
+        }
+
+        // Form
+        function setupForm() {
+            document.getElementById('taskForm').addEventListener('submit', e => {
+                e.preventDefault();
+
+                const task = {
+                    id: Date.now().toString(),
+                    title: document.getElementById('taskTitle').value,
+                    description: document.getElementById('taskDescription').value,
+                    assignee: document.getElementById('taskAssignee').value,
+                    priority: document.getElementById('taskPriority').value,
+                    dueDate: document.getElementById('taskDue').value,
+                    status: 'backlog',
+                    createdAt: new Date().toISOString()
+                };
+
+                tasks.push(task);
+                saveTasks();
+                renderTasks();
+                closeModal();
+                e.target.reset();
+            });
+        }
+
+        // Modal
+        function openModal() {
+            document.getElementById('taskModal').classList.add('active');
+            document.getElementById('taskTitle').focus();
+        }
+
+        function closeModal() {
+            document.getElementById('taskModal').classList.remove('active');
+        }
+
+        // Close modal on outside click
+        document.getElementById('taskModal').addEventListener('click', e => {
+            if (e.target.id === 'taskModal') closeModal();
+        });
+
+        // Helpers
+        function saveTasks() {
+            localStorage.setItem('kanbanTasks', JSON.stringify(tasks));
+        }
+
+        function updateStats() {
+            const jamesTasks = tasks.filter(t => t.assignee === 'james').length;
+            const marvTasks = tasks.filter(t => t.assignee === 'marv').length;
+            const completedTasks = tasks.filter(t => t.status === 'done').length;
+
+            document.getElementById('totalTasks').textContent = tasks.length;
+            document.getElementById('jamesTasks').textContent = jamesTasks;
+            document.getElementById('marvTasks').textContent = marvTasks;
+            document.getElementById('completedTasks').textContent = completedTasks;
+        }
+
+        function getDueClass(dueDate) {
+            if (!dueDate) return '';
+            const due = new Date(dueDate);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            if (due < today) return 'overdue';
+            if (due.toDateString() === today.toDateString()) return 'today';
+            return '';
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') closeModal();
+            if (e.key === 'n' && (e.ctrlKey || e.metaKey)) {
+                e.preventDefault();
+                openModal();
+            }
+        });
+    </script>
+</body>
+</html>
