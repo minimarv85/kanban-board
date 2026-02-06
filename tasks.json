@@ -48,5 +48,14 @@
     "dueDate": "",
     "status": "doing",
     "createdAt": "2026-02-06T20:30:00.000Z"
+  },
+  {
+    "id": "1770411176",
+    "title": "Daily Brief",
+    "description": "Send weather & markets brief via Telegram at 8am daily",
+    "assignee": "marv",
+    "priority": "medium",
+    "dueDate": "",
+    "status": "doing"
   }
 ]
