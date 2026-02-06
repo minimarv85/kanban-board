@@ -1,0 +1,52 @@
+[
+  {
+    "id": "1",
+    "title": "Jackie email reply monitoring",
+    "description": "Check Jackie's emails hourly and reply",
+    "assignee": "marv",
+    "priority": "high",
+    "dueDate": "",
+    "status": "doing",
+    "createdAt": "2026-02-06T20:30:00.000Z"
+  },
+  {
+    "id": "2",
+    "title": "OpenClaw update check",
+    "description": "Check for OpenClaw updates at 9am daily",
+    "assignee": "marv",
+    "priority": "low",
+    "dueDate": "",
+    "status": "doing",
+    "createdAt": "2026-02-06T20:30:00.000Z"
+  },
+  {
+    "id": "3",
+    "title": "Birthday reminders",
+    "description": "Remind James about upcoming birthdays (Sister 24th Feb, Garv 27th Feb, Kev 28th Feb)",
+    "assignee": "marv",
+    "priority": "medium",
+    "dueDate": "",
+    "status": "doing",
+    "createdAt": "2026-02-06T20:30:00.000Z"
+  },
+  {
+    "id": "4",
+    "title": "Dolibaar expenses monthly",
+    "description": "Process Dolibaar restaurant expenses monthly",
+    "assignee": "marv",
+    "priority": "medium",
+    "dueDate": "",
+    "status": "backlog",
+    "createdAt": "2026-02-06T20:30:00.000Z"
+  },
+  {
+    "id": "5",
+    "title": "Weekly disk cleanup",
+    "description": "Clean up Pi disk space every Sunday at 3am",
+    "assignee": "marv",
+    "priority": "low",
+    "dueDate": "",
+    "status": "doing",
+    "createdAt": "2026-02-06T20:30:00.000Z"
+  }
+]

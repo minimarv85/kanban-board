@@ -332,12 +332,6 @@
             color: #f59e0b;
         }
 
-        .task-comments {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
         /* Modal */
         .modal-overlay {
             position: fixed;
@@ -505,6 +499,21 @@
         .empty-column p {
             font-size: 14px;
         }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* Last synced */
+        .last-synced {
+            font-size: 12px;
+            color: rgba(255,255,255,0.4);
+            text-align: center;
+            padding: 10px;
+        }
     </style>
 </head>
 <body>
@@ -565,7 +574,9 @@
                 </div>
                 <span class="column-count">0</span>
             </div>
-            <div class="task-list" data-status="backlog"></div>
+            <div class="task-list" data-status="backlog">
+                <div class="loading">Loading...</div>
+            </div>
         </div>
 
         <div class="column col-today" data-status="today">
@@ -613,6 +624,8 @@
         </div>
     </div>
 
+    <div class="last-synced" id="lastSynced"></div>
+
     <!-- Add Task Modal -->
     <div class="modal-overlay" id="taskModal">
         <div class="modal">
@@ -656,17 +669,56 @@
     </div>
 
     <script>
+        // Task storage URL
+        const TASKS_URL = 'tasks.json';
+
         // Data
-        let tasks = JSON.parse(localStorage.getItem('kanbanTasks')) || [];
+        let tasks = [];
         let currentFilter = 'all';
+        let draggedTask = null;
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            renderTasks();
+            loadTasks();
             setupDragAndDrop();
             setupFilterButtons();
             setupForm();
         });
+
+        // Load tasks from JSON file
+        async function loadTasks() {
+            try {
+                const response = await fetch(TASKS_URL + '?t=' + Date.now());
+                if (response.ok) {
+                    tasks = await response.json();
+                } else {
+                    // Try localStorage as fallback
+                    const local = localStorage.getItem('kanbanTasks');
+                    if (local) {
+                        tasks = JSON.parse(local);
+                    }
+                }
+            } catch (e) {
+                const local = localStorage.getItem('kanbanTasks');
+                if (local) {
+                    tasks = JSON.parse(local);
+                }
+            }
+            
+            // Save to localStorage as backup
+            localStorage.setItem('kanbanTasks', JSON.stringify(tasks));
+            
+            renderTasks();
+        }
+
+        // Save tasks
+        async function saveTasks() {
+            // Save to localStorage first
+            localStorage.setItem('kanbanTasks', JSON.stringify(tasks));
+            
+            // Update last synced time
+            document.getElementById('lastSynced').textContent = 'Last synced: ' + new Date().toLocaleString();
+        }
 
         // Render tasks
         function renderTasks() {
@@ -741,8 +793,6 @@
         }
 
         // Drag and Drop
-        let draggedTask = null;
-
         function setupDragAndDrop() {
             const lists = document.querySelectorAll('.task-list');
             lists.forEach(list => {
@@ -841,10 +891,6 @@
         });
 
         // Helpers
-        function saveTasks() {
-            localStorage.setItem('kanbanTasks', JSON.stringify(tasks));
-        }
-
         function updateStats() {
             const jamesTasks = tasks.filter(t => t.assignee === 'james').length;
             const marvTasks = tasks.filter(t => t.assignee === 'marv').length;
