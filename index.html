@@ -18,7 +18,6 @@
             color: #fff;
         }
 
-        /* Header */
         .header {
             background: rgba(255,255,255,0.05);
             backdrop-filter: blur(10px);
@@ -27,9 +26,6 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid rgba(255,255,255,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
         }
 
         .logo {
@@ -61,7 +57,6 @@
         .header-actions {
             display: flex;
             gap: 12px;
-            align-items: center;
         }
 
         .filter-buttons {
@@ -75,18 +70,12 @@
             border-radius: 8px;
             cursor: pointer;
             font-weight: 500;
-            transition: all 0.3s;
             background: rgba(255,255,255,0.1);
             color: #fff;
         }
 
         .filter-btn.active {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
-        .filter-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
         }
 
         .add-task-btn {
@@ -100,15 +89,8 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.3s;
         }
 
-        .add-task-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
-        }
-
-        /* Stats Bar */
         .stats-bar {
             display: flex;
             gap: 20px;
@@ -146,13 +128,11 @@
             color: rgba(255,255,255,0.6);
         }
 
-        /* Board */
         .board {
             display: flex;
             gap: 24px;
             padding: 24px 30px;
             overflow-x: auto;
-            min-height: calc(100vh - 200px);
         }
 
         .column {
@@ -217,18 +197,11 @@
             padding: 16px;
             cursor: grab;
             transition: all 0.3s;
-            border: 1px solid transparent;
         }
 
         .task-card:hover {
             background: rgba(255,255,255,0.12);
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-        }
-
-        .task-card.dragging {
-            opacity: 0.5;
-            transform: rotate(3deg);
         }
 
         .task-header {
@@ -310,26 +283,10 @@
             color: rgba(255,255,255,0.7);
         }
 
-        .task-meta {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            color: rgba(255,255,255,0.5);
-        }
-
-        .task-due {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .task-due.overdue {
-            color: #ef4444;
-        }
-
-        .task-due.today {
-            color: #f59e0b;
+        .empty-column {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(255,255,255,0.4);
         }
 
         /* Modal */
@@ -361,12 +318,6 @@
             width: 90%;
             max-width: 500px;
             border: 1px solid rgba(255,255,255,0.1);
-            transform: translateY(-20px);
-            transition: all 0.3s;
-        }
-
-        .modal-overlay.active .modal {
-            transform: translateY(0);
         }
 
         .modal h2 {
@@ -395,15 +346,6 @@
             border-radius: 10px;
             color: #fff;
             font-size: 15px;
-            transition: all 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
         }
 
         .form-group textarea {
@@ -432,7 +374,6 @@
             border-radius: 10px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
             flex: 1;
         }
 
@@ -441,79 +382,16 @@
             color: #fff;
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-
         .btn-secondary {
             background: rgba(255,255,255,0.1);
             color: #fff;
         }
 
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.15);
-        }
-
-        /* Column Colors */
         .col-backlog .column-icon { background: rgba(156, 163, 175, 0.2); }
         .col-today .column-icon { background: rgba(59, 130, 246, 0.2); }
         .col-doing .column-icon { background: rgba(245, 158, 11, 0.2); }
         .col-review .column-icon { background: rgba(139, 92, 246, 0.2); }
         .col-done .column-icon { background: rgba(16, 185, 129, 0.2); }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .board {
-                padding: 16px;
-            }
-
-            .column {
-                min-width: 280px;
-                max-width: 280px;
-            }
-
-            .header {
-                flex-direction: column;
-                gap: 16px;
-            }
-
-            .stats-bar {
-                flex-wrap: wrap;
-            }
-        }
-
-        /* Drag and Drop */
-        .task-card.drag-over {
-            border-color: #667eea;
-            background: rgba(102, 126, 234, 0.1);
-        }
-
-        /* Empty state */
-        .empty-column {
-            text-align: center;
-            padding: 40px 20px;
-            color: rgba(255,255,255,0.4);
-        }
-
-        .empty-column p {
-            font-size: 14px;
-        }
-
-        /* Loading */
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: rgba(255,255,255,0.5);
-        }
-
-        /* Last synced */
-        .last-synced {
-            font-size: 12px;
-            color: rgba(255,255,255,0.4);
-            text-align: center;
-            padding: 10px;
-        }
     </style>
 </head>
 <body>
@@ -574,9 +452,7 @@
                 </div>
                 <span class="column-count">0</span>
             </div>
-            <div class="task-list" data-status="backlog">
-                <div class="loading">Loading...</div>
-            </div>
+            <div class="task-list" data-status="backlog"></div>
         </div>
 
         <div class="column col-today" data-status="today">
@@ -624,8 +500,6 @@
         </div>
     </div>
 
-    <div class="last-synced" id="lastSynced"></div>
-
     <!-- Add Task Modal -->
     <div class="modal-overlay" id="taskModal">
         <div class="modal">
@@ -669,58 +543,112 @@
     </div>
 
     <script>
-        // Task storage URL
-        const TASKS_URL = 'tasks.json';
+        // Default tasks (always available)
+        const defaultTasks = [
+            {
+                id: "1",
+                title: "Jackie email reply monitoring",
+                description: "Check Jackie's emails hourly and reply",
+                assignee: "marv",
+                priority: "high",
+                dueDate: "",
+                status: "doing"
+            },
+            {
+                id: "2",
+                title: "OpenClaw Auto-Update",
+                description: "Auto-update OpenClaw at 9am daily",
+                assignee: "marv",
+                priority: "low",
+                dueDate: "",
+                status: "doing"
+            },
+            {
+                id: "3",
+                title: "Birthday reminders",
+                description: "Remind James about upcoming birthdays (Sister 24th Feb, Garv 27th Feb, Kev 28th Feb)",
+                assignee: "marv",
+                priority: "medium",
+                dueDate: "",
+                status: "doing"
+            },
+            {
+                id: "4",
+                title: "Dolibaar expenses monthly",
+                description: "Process Dolibaar restaurant expenses monthly",
+                assignee: "marv",
+                priority: "medium",
+                dueDate: "",
+                status: "backlog"
+            },
+            {
+                id: "5",
+                title: "Weekly disk cleanup",
+                description: "Clean up Pi disk space every Sunday at 3am",
+                assignee: "marv",
+                priority: "low",
+                dueDate: "",
+                status: "doing"
+            },
+            {
+                id: "6",
+                title: "Daily Brief",
+                description: "Send weather + S&P 500 brief via Telegram at 8am daily",
+                assignee: "marv",
+                priority: "medium",
+                dueDate: "",
+                status: "doing"
+            }
+        ];
 
-        // Data
-        let tasks = [];
+        // State
+        let tasks = [...defaultTasks];
         let currentFilter = 'all';
         let draggedTask = null;
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
+            // Try to load from localStorage or tasks.json
             loadTasks();
             setupDragAndDrop();
             setupFilterButtons();
             setupForm();
         });
 
-        // Load tasks from JSON file
         async function loadTasks() {
             try {
-                const response = await fetch(TASKS_URL + '?t=' + Date.now());
-                if (response.ok) {
-                    tasks = await response.json();
-                } else {
-                    // Try localStorage as fallback
+                // Fetch from server first (tasks.json)
+                try {
+                    const response = await fetch('tasks.json');
+                    if (response.ok) {
+                        const serverTasks = await response.json();
+                        if (serverTasks.length > 0) {
+                            tasks = serverTasks;
+                            console.log('Loaded from server:', tasks.length, 'tasks');
+                        }
+                    }
+                } catch (e) {
+                    console.log('Server fetch failed, trying localStorage');
+                }
+                
+                // Fallback to localStorage if server has no tasks
+                if (tasks.length === 0) {
                     const local = localStorage.getItem('kanbanTasks');
                     if (local) {
                         tasks = JSON.parse(local);
+                        console.log('Loaded from localStorage:', tasks.length, 'tasks');
                     }
                 }
             } catch (e) {
-                const local = localStorage.getItem('kanbanTasks');
-                if (local) {
-                    tasks = JSON.parse(local);
-                }
+                console.log('Using default tasks');
             }
-            
-            // Save to localStorage as backup
-            localStorage.setItem('kanbanTasks', JSON.stringify(tasks));
-            
             renderTasks();
         }
 
-        // Save tasks
-        async function saveTasks() {
-            // Save to localStorage first
+        function saveTasks() {
             localStorage.setItem('kanbanTasks', JSON.stringify(tasks));
-            
-            // Update last synced time
-            document.getElementById('lastSynced').textContent = 'Last synced: ' + new Date().toLocaleString();
         }
 
-        // Render tasks
         function renderTasks() {
             const columns = document.querySelectorAll('.task-list');
             columns.forEach(col => {
@@ -733,7 +661,7 @@
 
                 col.innerHTML = filteredTasks.length ? '' : `
                     <div class="empty-column">
-                        <p>No tasks yet</p>
+                        <p>No tasks</p>
                     </div>
                 `;
 
@@ -742,7 +670,6 @@
                     col.appendChild(card);
                 });
 
-                // Update column count
                 const count = filteredTasks.length;
                 col.parentElement.querySelector('.column-count').textContent = count;
             });
@@ -750,14 +677,12 @@
             updateStats();
         }
 
-        // Create task card
         function createTaskCard(task) {
             const card = document.createElement('div');
             card.className = 'task-card';
             card.draggable = true;
             card.dataset.id = task.id;
 
-            const dueClass = getDueClass(task.dueDate);
             const assigneeClass = task.assignee === 'james' ? 'assignee-james' : 'assignee-marv';
             const assigneeInitial = task.assignee === 'james' ? 'J' : 'M';
             const assigneeName = task.assignee === 'james' ? 'James' : 'Marv';
@@ -773,41 +698,30 @@
                         <div class="assignee-avatar ${assigneeClass}">${assigneeInitial}</div>
                         <span class="assignee-name">${assigneeName}</span>
                     </div>
-                    <div class="task-meta">
-                        ${task.dueDate ? `
-                            <span class="task-due ${dueClass}">
-                                📅 ${formatDate(task.dueDate)}
-                            </span>
-                        ` : ''}
-                    </div>
                 </div>
             `;
 
-            card.addEventListener('dragstart', handleDragStart);
-            card.addEventListener('dragend', handleDragEnd);
-            card.addEventListener('dragover', handleDragOver);
-            card.addEventListener('drop', handleDrop);
-            card.addEventListener('dragleave', handleDragLeave);
+            card.addEventListener('dragstart', (e) => {
+                draggedTask = e.target.dataset.id;
+                e.target.style.opacity = '0.5';
+            });
+
+            card.addEventListener('dragend', (e) => {
+                e.target.style.opacity = '1';
+                draggedTask = null;
+            });
 
             return card;
         }
 
-        // Drag and Drop
         function setupDragAndDrop() {
-            const lists = document.querySelectorAll('.task-list');
-            lists.forEach(list => {
-                list.addEventListener('dragover', e => {
+            document.querySelectorAll('.task-list').forEach(list => {
+                list.addEventListener('dragover', (e) => {
                     e.preventDefault();
-                    list.classList.add('drag-over');
                 });
 
-                list.addEventListener('dragleave', () => {
-                    list.classList.remove('drag-over');
-                });
-
-                list.addEventListener('drop', e => {
+                list.addEventListener('drop', (e) => {
                     e.preventDefault();
-                    list.classList.remove('drag-over');
                     if (draggedTask) {
                         const newStatus = list.dataset.status;
                         const task = tasks.find(t => t.id === draggedTask);
@@ -821,25 +735,6 @@
             });
         }
 
-        function handleDragStart(e) {
-            draggedTask = e.target.dataset.id;
-            e.target.classList.add('dragging');
-        }
-
-        function handleDragEnd(e) {
-            e.target.classList.remove('dragging');
-            draggedTask = null;
-        }
-
-        function handleDragOver(e) {
-            e.preventDefault();
-        }
-
-        function handleDrop(e) {
-            e.preventDefault();
-        }
-
-        // Filter buttons
         function setupFilterButtons() {
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
@@ -851,9 +746,8 @@
             });
         }
 
-        // Form
         function setupForm() {
-            document.getElementById('taskForm').addEventListener('submit', e => {
+            document.getElementById('taskForm').addEventListener('submit', (e) => {
                 e.preventDefault();
 
                 const task = {
@@ -863,8 +757,7 @@
                     assignee: document.getElementById('taskAssignee').value,
                     priority: document.getElementById('taskPriority').value,
                     dueDate: document.getElementById('taskDue').value,
-                    status: 'backlog',
-                    createdAt: new Date().toISOString()
+                    status: 'backlog'
                 };
 
                 tasks.push(task);
@@ -875,7 +768,6 @@
             });
         }
 
-        // Modal
         function openModal() {
             document.getElementById('taskModal').classList.add('active');
             document.getElementById('taskTitle').focus();
@@ -885,12 +777,10 @@
             document.getElementById('taskModal').classList.remove('active');
         }
 
-        // Close modal on outside click
-        document.getElementById('taskModal').addEventListener('click', e => {
+        document.getElementById('taskModal').addEventListener('click', (e) => {
             if (e.target.id === 'taskModal') closeModal();
         });
 
-        // Helpers
         function updateStats() {
             const jamesTasks = tasks.filter(t => t.assignee === 'james').length;
             const marvTasks = tasks.filter(t => t.assignee === 'marv').length;
@@ -902,30 +792,13 @@
             document.getElementById('completedTasks').textContent = completedTasks;
         }
 
-        function getDueClass(dueDate) {
-            if (!dueDate) return '';
-            const due = new Date(dueDate);
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            if (due < today) return 'overdue';
-            if (due.toDateString() === today.toDateString()) return 'today';
-            return '';
-        }
-
-        function formatDate(dateStr) {
-            if (!dateStr) return '';
-            const date = new Date(dateStr);
-            return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-        }
-
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
         }
 
-        // Keyboard shortcuts
-        document.addEventListener('keydown', e => {
+        document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') closeModal();
             if (e.key === 'n' && (e.ctrlKey || e.metaKey)) {
                 e.preventDefault();
