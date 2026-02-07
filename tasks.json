@@ -102,5 +102,14 @@
     "priority": "high",
     "dueDate": "",
     "status": "done"
+  },
+  {
+    "id": "1770460759",
+    "title": "Football Prediction Workflow",
+    "description": "Complete 3-phase system: Data collection \u2192 Analysis \u2192 Accumulator builder",
+    "assignee": "marv",
+    "priority": "high",
+    "dueDate": "",
+    "status": "done"
   }
 ]
