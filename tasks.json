@@ -93,5 +93,14 @@
     "priority": "high",
     "dueDate": "",
     "status": "doing"
+  },
+  {
+    "id": "1770459457",
+    "title": "Football Stats System Complete",
+    "description": "Comprehensive stats extraction for PL: standings, form, scorers, predictions",
+    "assignee": "marv",
+    "priority": "high",
+    "dueDate": "",
+    "status": "done"
   }
 ]
