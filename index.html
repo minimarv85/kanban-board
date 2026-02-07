@@ -808,3 +808,159 @@
     </script>
 </body>
 </html>
+
+/* ============ MOBILE RESPONSIVE ============ */
+@media (max-width: 768px) {
+    /* Header */
+    .header {
+        flex-direction: column;
+        gap: 16px;
+        padding: 16px;
+    }
+    
+    .header-actions {
+        width: 100%;
+        flex-direction: column;
+    }
+    
+    .filter-buttons {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .add-task-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    /* Stats bar */
+    .stats-bar {
+        flex-wrap: wrap;
+        padding: 12px;
+        gap: 12px;
+    }
+    
+    /* Board - horizontal scroll on mobile */
+    .board {
+        padding: 16px;
+        gap: 16px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .column {
+        min-width: 280px;
+        max-width: 280px;
+        flex-shrink: 0;
+    }
+    
+    .column-header {
+        padding: 16px;
+    }
+    
+    .column h2 {
+        font-size: 14px;
+    }
+    
+    /* Task cards */
+    .task-card {
+        padding: 14px;
+        margin: 0 12px 12px;
+    }
+    
+    .task-title {
+        font-size: 14px;
+    }
+    
+    .task-description {
+        font-size: 12px;
+        margin-top: 6px;
+    }
+    
+    .task-meta {
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+    }
+    
+    .task-tag {
+        font-size: 10px;
+        padding: 4px 8px;
+    }
+    
+    /* Modal */
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+        padding: 20px;
+    }
+    
+    .form-row {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .form-row label {
+        font-size: 12px;
+    }
+    
+    .form-row select,
+    .form-row input {
+        padding: 10px;
+        font-size: 14px;
+    }
+    
+    .modal-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .modal-actions button {
+        width: 100%;
+        padding: 12px;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+    .logo h1 {
+        font-size: 18px;
+    }
+    
+    .logo-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+    }
+    
+    .filter-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+    
+    .column {
+        min-width: 260px;
+        max-width: 260px;
+    }
+    
+    .stats-item {
+        font-size: 12px;
+    }
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) {
+    .task-card {
+        cursor: pointer;
+    }
+    
+    .add-task-btn:active,
+    .filter-btn:active {
+        transform: scale(0.98);
+    }
+    
+    .delete-btn:active {
+        transform: scale(0.9);
+    }
+}
