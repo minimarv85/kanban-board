@@ -111,5 +111,14 @@
     "priority": "high",
     "dueDate": "",
     "status": "done"
+  },
+  {
+    "id": "1770465600",
+    "title": "Daily OpenClaw Backup",
+    "description": "Backup at 23:59 daily - saves latest backup to overwrite previous",
+    "assignee": "marv",
+    "priority": "high",
+    "dueDate": "",
+    "status": "doing"
   }
 ]
