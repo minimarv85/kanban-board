@@ -84,5 +84,14 @@
     "priority": "high",
     "dueDate": "",
     "status": "doing"
+  },
+  {
+    "id": "1770459166",
+    "title": "Football Data Scraper System",
+    "description": "Build automated scraper for fixtures, form, stats from Sky Sports + football-data.org API",
+    "assignee": "marv",
+    "priority": "high",
+    "dueDate": "",
+    "status": "doing"
   }
 ]
