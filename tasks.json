@@ -75,5 +75,14 @@
     "priority": "medium",
     "dueDate": "",
     "status": "doing"
+  },
+  {
+    "id": "1770458248",
+    "title": "Football Accumulator System",
+    "description": "Build automated prediction system using football-data.org API (key: 5a4c15...)",
+    "assignee": "marv",
+    "priority": "high",
+    "dueDate": "",
+    "status": "doing"
   }
 ]
